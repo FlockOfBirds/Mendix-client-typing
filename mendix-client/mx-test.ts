@@ -1,3 +1,4 @@
+/* tslint:disable */
 
 // https://apidocs.mendix.com/6/client/mx.data.html
 var form = new mxui.lib.form._FormBase()

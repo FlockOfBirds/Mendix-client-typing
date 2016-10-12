@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import * as dom from "mxui/dom"
 
 // https://apidocs.mendix.com/6/client/module-mxui_dom.html

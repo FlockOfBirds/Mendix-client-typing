@@ -1,5 +1,5 @@
 {
-    "name": "mendix-client",
+    "name": "@types/mendix-client",
     "author": "Andries Smit <andries.smit@flockofbirds.org>",
     "description": "Type definition for Mendix client",
     "version": "0.1.0",

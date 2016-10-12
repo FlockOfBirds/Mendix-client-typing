@@ -1,0 +1,10 @@
+{
+    "name": "mendix-client",
+    "author": "Andries Smit <andries.smit@flockofbirds.org>",
+    "description": "Type definition for Mendix client",
+    "version": "0.1.0",
+    "types": ["./mendix-client/mendix.d.ts", "./mendix-client/mxui.d.ts", "./mendix-client/mx.d.ts"],
+    "dependencies": {
+        "@types/dojo": "^1.9.34"
+    }
+}

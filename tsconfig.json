@@ -1,22 +1,14 @@
 {
     "files": [
-        "mendix-client/mendix.d.ts",
-        "mendix-client/mx.d.ts",
-        "mendix-client/mx-test.ts",
-        "mendix-client/mxui.d.ts",
-        "mendix-client/mxui-test.ts",
-        "mendix-client/mendix-test.ts"
+        "index.d.ts",
+        "tests/mx-test.ts",
+        "tests/mxui-test.ts",
+        "tests/mendix-test.ts"
     ],
     "compilerOptions": {
         "module": "amd",
         "target": "es5",
         "noImplicitAny": true,
-        "strictNullChecks": false,
-        "baseUrl": "../",
-        "typeRoots": [
-            "../"
-        ],
-        "types": [],
         "noEmit": true,
         "forceConsistentCasingInFileNames": true
     }

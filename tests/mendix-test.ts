@@ -1,8 +1,7 @@
 /* tslint:disable */
-
 import * as lang from "mendix/lang";
-
 import * as validator from "mendix/validator"
+
 logger.error("Message", "More info");
 logger.debug("Message", "More info");
 logger.info("Message", "More info");

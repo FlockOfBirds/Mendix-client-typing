@@ -1,5 +1,4 @@
 /* tslint:disable */
-
 import * as dom from "mxui/dom"
 
 // https://apidocs.mendix.com/6/client/module-mxui_dom.html
@@ -56,7 +55,5 @@ inputNode.focus();
 dom.selectTextRange(inputNode, 2, 3);
 
 // TODO https://apidocs.mendix.com/6/client/module-mxui_html_parser.html
-
-
 
 let button = new mxui.widget._Button();

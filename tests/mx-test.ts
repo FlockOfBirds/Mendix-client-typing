@@ -1,7 +1,8 @@
 /* tslint:disable */
+var form = new mxui.lib.form._FormBase()
 
 // https://apidocs.mendix.com/6/client/mx.data.html
-var form = new mxui.lib.form._FormBase()
+
 // Calling a simple Microflow, not expecting any entities
 mx.data.action({
     params: {

@@ -513,10 +513,6 @@ declare module mx {
 		 */
         exception(msg: string): void;
 		/**
-		 * Gets a template for a specific widget.
-		 */
-        getTemplate(): HTMLElement;
-		/**
 		 * 
 		 */
         showProgress(): number;

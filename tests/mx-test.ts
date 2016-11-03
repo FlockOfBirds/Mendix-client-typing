@@ -268,3 +268,7 @@ var pid = mx.ui.showProgress(); // show progress dialog
 mx.ui.hideProgress(pid); // hide it again
 
 mx.login("user", "password", () => console.log("Logged in"), () => console.log("Failed login"));
+
+// Window
+window.mx.ui.error("Some Error", true);
+window.logger.debug("Window debug");

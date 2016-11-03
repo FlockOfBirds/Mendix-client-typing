@@ -581,3 +581,8 @@ declare module "mendix/logger" {
 // Declaration of mendix global variables
 declare var logger: mendix.logger;
 declare var mx: mx.mx;
+
+interface Window {
+    mx: mx.mx;
+    logger: mendix.logger;
+}

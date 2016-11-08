@@ -11,32 +11,32 @@ logger.scream("Message", "More info");
 
 // https://apidocs.mendix.com/6/client/module-mendix_lang.html
 lang.collect([
-  function (callback) {
-    setTimeout(callback, 100); // async
-  },
-  function (callback) {
-    setTimeout(callback, 100); // async
-  },
-  function (callback) {
-    setTimeout(callback, 100); // async
-  }
+    function (callback) {
+        setTimeout(callback, 100); // async
+    },
+    function (callback) {
+        setTimeout(callback, 100); // async
+    },
+    function (callback) {
+        setTimeout(callback, 100); // async
+    }
 ], function () {
-  console.log("Completed");
+    console.log("Completed");
 }, this);
 
 lang.map([1, 2, 3], function (x) {
-  return Number(x) * 2;
+    return Number(x) * 2;
 }, this); // [2, 4, 6]
 
 lang.sequence([
-  function (callback) {
-    callback(); // sync
-  },
-  function (callback) {
-    setTimeout(callback, 100); // async
-  }
+    function (callback) {
+        callback(); // sync
+    },
+    function (callback) {
+        setTimeout(callback, 100); // async
+    }
 ], function () {
-  console.log("Completed");
+    console.log("Completed");
 }, this);
 
 // https://apidocs.mendix.com/6/client/module-mendix_validator.html
@@ -45,6 +45,6 @@ lang.sequence([
 validator.validate("100.12", "Integer") === validator.validation.NOT_INTEGER
 
 var domainModel = mx.meta.getMap();
-for(let key in domainModel) {
-  console.log(key);
+for (let key in domainModel) {
+    console.log(key);
 }

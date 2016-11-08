@@ -11,33 +11,33 @@ declare namespace mendix {
             constructor(message: string, original: any);
         }
         class MxObject extends MxMetaObject {
-			/**
-			 * If attr is a reference attribute, sets it to the given object. If attr is a reference set attribute, adds the given object to it.
-			 * @param attr The reference attribute. Can refer to either a reference or reference set attribute.
-			 * @param guid GUID of the object to add to the reference
-			 */
+            /**
+             * If attr is a reference attribute, sets it to the given object. If attr is a reference set attribute, adds the given object to it.
+             * @param attr The reference attribute. Can refer to either a reference or reference set attribute.
+             * @param guid GUID of the object to add to the reference
+             */
             addReference(attr: string, guid: string | number): boolean;
-			/**
-			 * Add an object to a reference set attribute.
-			 * @param attr the reference set attribute
-			 * @param guids GUIDs of the objects to add to the reference
-			 */
+            /**
+             * Add an object to a reference set attribute.
+             * @param attr the reference set attribute
+             * @param guids GUIDs of the objects to add to the reference
+             */
             addReferences(attr: string, guids: string[] | number[]): boolean;
-			/**
-			 * Compare this MxObject to another MxObject and find out if they are the same.
-			 * This means they have the same Entity type and their attributes have the same value.
-			 */
+            /**
+             * Compare this MxObject to another MxObject and find out if they are the same.
+             * This means they have the same Entity type and their attributes have the same value.
+             */
             compare(mxobj: mendix.lib.MxObject): boolean;
-			/**
-			 * Gets an object or value of an attribute, through a path from this object.
-			 * The result is passed to a callback and depends on the requested path:
-			 */
+            /**
+             * Gets an object or value of an attribute, through a path from this object.
+             * The result is passed to a callback and depends on the requested path:
+             */
             fetch(path: string, callback: Function): void;
-			/**
-			 * Returns the value of an attribute.
-			 * For reference attributes, use mendix/lib/MxObject#getReference and mendix/lib/MxObject#getReferences instead.
-			 */
-            get(attr: string): string | number | boolean; //add external big	
+            /**
+             * Returns the value of an attribute.
+             * For reference attributes, use mendix/lib/MxObject#getReference and mendix/lib/MxObject#getReferences instead.
+             */
+            get(attr: string): string | number | boolean; //add external big    
             removeReferences(attr: string, guids: string[]): boolean;
             set(attr: string, val: any): boolean;
             FetchCallback(requested: any): void;
@@ -144,32 +144,32 @@ declare module mxui {
             readOnly: boolean;
 
             subscribe(t: string, method: Function): any;
-			/**
-			 * Subscribe to all changes in an MxObject
-			 */
+            /**
+             * Subscribe to all changes in an MxObject
+             */
             subscribe(args: {
                 guid: string,
                 callback(guid: string): void
             }): number;
-			/**
-			 * Subscribe to changes in a specific attribute of an MxObject
-			 */
+            /**
+             * Subscribe to changes in a specific attribute of an MxObject
+             */
             subscribe(args: {
                 guid: string,
                 attr: string,
                 callback(guid: string, attribute: string, value: any): void
             }): number;
-			/**
-			 * Subscribe to validations of an MxObject
-			 */
+            /**
+             * Subscribe to validations of an MxObject
+             */
             subscribe(args: {
                 guid: string,
                 val: true,
                 callback(validations: mendix.lib.ObjectValidation[]): void
             }): number;
-			/**
-			 * Subscribe to changes in a class
-			 */
+            /**
+             * Subscribe to changes in a class
+             */
             subscribe(args: {
                 entity: string,
                 callback(entity: string): void
@@ -227,13 +227,13 @@ declare module mxui {
     }
 
     interface dom {
-		/**
-		* Add a link to the given stylesheet to a document.
-		* @param path	path of the stylesheet location
-		* @param doc	document to add the stylesheet link to. Defaults to document.
-		* @media media	string describing the media types supported by the stylesheet
-		* 
-		*/
+        /**
+        * Add a link to the given stylesheet to a document.
+        * @param path    path of the stylesheet location
+        * @param doc    document to add the stylesheet link to. Defaults to document.
+        * @media media    string describing the media types supported by the stylesheet
+        * 
+        */
         addCss(path: string, doc?: Document, media?: string): void;
         create(element: string, props?: Object, ...children: HTMLElement[]): HTMLElement;
         disableNode(node: HTMLElement): HTMLElement;
@@ -310,9 +310,9 @@ declare module mx {
             context: any,
             callback: (xpath: string, allMatched: boolean) => void
         }): void;
-		/**
-		 * Retrieves MxObjects from the Runtime. Using guid 
-		 */
+        /**
+         * Retrieves MxObjects from the Runtime. Using guid 
+         */
         get(args: {
             guid: string,
             noCache?: boolean,
@@ -330,9 +330,9 @@ declare module mx {
                 references?: Object
             }
         }, scope?: Object): void;
-		/**
-		 * Retrieves MxObjects from the Runtime. Using guids
-		 */
+        /**
+         * Retrieves MxObjects from the Runtime. Using guids
+         */
         get(args: {
             guids: string[],
             noCache?: boolean,
@@ -350,9 +350,9 @@ declare module mx {
                 references?: Object
             }
         }, scope?: Object): void;
-		/**
-		 * Retrieves MxObjects from the Runtime. Using xpath
-		 */
+        /**
+         * Retrieves MxObjects from the Runtime. Using xpath
+         */
         get(args: {
             xpath: string,
             noCache?: boolean,
@@ -370,9 +370,9 @@ declare module mx {
                 references?: Object
             }
         }, scope?: Object): void;
-		/**
-		 * Retrieves MxObjects from the Runtime. Using microflow 
-		 */
+        /**
+         * Retrieves MxObjects from the Runtime. Using microflow 
+         */
         get(args: {
             microflow: string,
             noCache?: boolean,
@@ -410,32 +410,32 @@ declare module mx {
             error?: (e: Error) => void,
 
         }, scope?: Object): void;
-		/**
-		 * Registers a callback to be invoked on changes in an MxObject
-		 */
+        /**
+         * Registers a callback to be invoked on changes in an MxObject
+         */
         subscribe(args: {
             guid: string,
             callback: (guid: number) => void,
         }): number;
-		/**
-		 * Registers a callback to be invoked on changes in an attribute of a MxObject
-		 */
+        /**
+         * Registers a callback to be invoked on changes in an attribute of a MxObject
+         */
         subscribe(args: {
             guid: string,
             attr: string,
             callback: (guid: number, attr: string, attrValue: any) => void,
         }): number;
-		/**
-		 * Registers a callback to be invoked on validations errors in a specific MxObject.
-		 */
+        /**
+         * Registers a callback to be invoked on validations errors in a specific MxObject.
+         */
         subscribe(args: {
             guid: string,
             val: boolean,
             callback: (validations: mendix.lib.ObjectValidation[]) => void,
         }): number;
-		/**
-		 * Registers a callback to be invoked on changes specific entity 
-		 */
+        /**
+         * Registers a callback to be invoked on changes specific entity 
+         */
         subscribe(args: {
             entity: string,
             callback: (entity: string) => void,
@@ -457,14 +457,14 @@ declare module mx {
 
     interface meta {
         getEntity(entity: string): mendix.lib.MxMetaObject;
-        getMap(): {[key: string]: mendix.lib.MxMetaObject};
+        getMap(): { [key: string]: mendix.lib.MxMetaObject };
     }
 
     type mendixAttributeType = "float" | "currency" | "autonumber" | "integer" | "long" | "decimal" | "datetime" | "boolean" | "binary" | "string" | "hashstring" | "enum";
     interface parser {
         formatAttribute(object: mendix.lib.MxObject, attribute: string, props?: any): string;
-        formatValue(value:any, type: string, props?: any): string;
-        parseValue(value: string, type: mendixAttributeType, props?: any): number|string|Date;        
+        formatValue(value: any, type: string, props?: any): string;
+        parseValue(value: string, type: mendixAttributeType, props?: any): number | string | Date;
     }
 
     interface server {
@@ -475,14 +475,14 @@ declare module mx {
     }
 
     interface ui {
-		/**
-		 * Executes a Microflow from the UI.
-		 * This is basically a wrapper around mx.data.action, giving the option of showing a progress bar while running the Microflow.
-		 * @param actionname name of the Microflow to execute
-		 * @param action set parameters for call action.
-		 * @param action.progress If set, a progress indicator is shown while running the Microflow. When set to modal the indicator is modal, otherwise it is not.
-		 * @param scope in which to execute the callback and error callbacks
-		 */
+        /**
+         * Executes a Microflow from the UI.
+         * This is basically a wrapper around mx.data.action, giving the option of showing a progress bar while running the Microflow.
+         * @param actionname name of the Microflow to execute
+         * @param action set parameters for call action.
+         * @param action.progress If set, a progress indicator is shown while running the Microflow. When set to modal the indicator is modal, otherwise it is not.
+         * @param scope in which to execute the callback and error callbacks
+         */
         action(actionname: string, action: {
             progress?: string,
             progressMsg?: string
@@ -502,42 +502,42 @@ declare module mx {
             onValidation?: Function,
         }, scope?: any): void;
 
-		/**
-		 * Goes one step back in history, closing the current in content Form.
-		 */
+        /**
+         * Goes one step back in history, closing the current in content Form.
+         */
         back(): void;
-		/**
-		 * Shows a confirmation dialog before calling a given function.
-		 */
+        /**
+         * Shows a confirmation dialog before calling a given function.
+         */
         confirmation(args: { content: string, proceed: string, cancel: string, handler: Function }): void;
-		/**
-		 * Shows an error message.
-		 */
+        /**
+         * Shows an error message.
+         */
         error(msg: string, modal?: boolean): void;
-		/**
-		 * Shows a message for a fatal error in a modal dialog.
-		 */
+        /**
+         * Shows a message for a fatal error in a modal dialog.
+         */
         exception(msg: string): void;
-		/**
-		 * 
-		 */
+        /**
+         * 
+         */
         showProgress(): number;
-		/**
-		 * Hides the loading dialog.
-		 */
+        /**
+         * Hides the loading dialog.
+         */
         hideProgress(pid: number): void;
-		/**
-		 * Shows an information message.
-		 */
+        /**
+         * Shows an information message.
+         */
         info(msg: string, modal: boolean): void;
         onError(error: Error): void;
         showUnderlay(delay?: number): void;
         hideUnderlay(delay?: number): void;
         resize(): void;
         isRtl(): string;
-		/**
-		 * Opens a form, either in content, in a DOM node or in a (modal) popup
-		 */
+        /**
+         * Opens a form, either in content, in a DOM node or in a (modal) popup
+         */
         openForm(path: string,
             args?: {
                 location?: "content" | "popup" | "modal",

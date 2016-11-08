@@ -1,4 +1,4 @@
-# Mendix Client API Type defintion
+# Mendix Client API Type definition
 
 This type definition is based on the Mendix client API documentation
 
@@ -19,7 +19,7 @@ https://apidocs.mendix.com/6/client/
 ```
 
 ## Usage
-Typescipt sample works as a Mendix Dojo widget
+Typescript sample works as a Mendix Dojo widget
 
 ```ts
 import * as dojoDeclare from "dojo/_base/declare";
@@ -34,7 +34,7 @@ export class MyWidget extends WidgetBase {
     }
 
     update(object: mendix.lib.MxObject, callback: Function) {
-        console.log("We have a constext", object);
+        console.log("We have a context", object);
 
         callback();
     }
@@ -49,10 +49,8 @@ dojoDeclare("com.mendix.widget.mywidget.MyWidget", [ WidgetBase ], (function (So
     }
     return result;
 } (MyWidget)));
-
 ```
 More info about the Dojo declare hack for TypesScript: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/types-2.0/dojo/README.md 
 
 ## Dependency
  * Mendix 6 Modeler - https://appstore.home.mendix.com
- * @types/dojo - https://github.com/DefinitelyTyped/DefinitelyTyped/tree/types-2.0/dojo 

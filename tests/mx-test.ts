@@ -1,4 +1,6 @@
 /* tslint:disable */
+import * as Big from "big.js";
+
 var form = new mxui.lib.form._FormBase()
 
 // https://apidocs.mendix.com/6/client/mx.data.html
@@ -272,3 +274,15 @@ mx.login("user", "password", () => console.log("Logged in"), () => console.log("
 // Window
 window.mx.ui.error("Some Error", true);
 window.logger.debug("Window debug");
+
+// https://apidocs.mendix.com/6/client/mx.parser.html
+
+var mxobj = new mendix.lib.MxObject();
+mxobj.set("createdDate", +new Date(1980, 7, 23));
+mx.parser.formatAttribute(mxobj, "createdDate", { datePattern: "dd-MM-yyyy" }); // 23-08-1980
+
+mx.parser.formatValue(Big(3000), "currency"); // "3000.00"
+mx.parser.formatValue(+new Date(1980, 7, 23), "datetime", { datePattern: "dd-MM-yyyy" }); // "23-08-1980"
+
+mx.parser.parseValue("3,000.00", "currency"); // 3000
+mx.parser.parseValue("23-8-1980", "datetime", { datePattern: "dd-M-yyyy" }); // Date(1980, 7, 23)

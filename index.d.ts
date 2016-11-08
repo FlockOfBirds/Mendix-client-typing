@@ -458,9 +458,15 @@ declare module mx {
     interface meta {
 
     }
-    interface parser {
 
+    type mendixAttributeType = "float" | "currency" | "autonumber" | "integer" | "long" | "decimal" | "datetime" | "boolean" | "binary" | "string" | "hashstring" | "enum";
+    interface parser {
+        formatAttribute(object: mendix.lib.MxObject, attribute: mendixAttributeType, props?: any): string;
+        formatValue(value:any, type: string, props?: any): string;
+        parseValue(value: string, type: mendixAttributeType, props?: any): number|string|Date;
+        
     }
+
     interface server {
 
     }

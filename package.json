@@ -1,10 +1,12 @@
 {
-    "name": "mendix-client",
-    "author": "Andries Smit <andries.smit@flockofbirds.org>",
-    "description": "Type definition for Mendix client",
-    "version": "0.1.0",
-    "types": "index.d.ts",
-    "dependencies": {
-        "@types/dojo": "^1.9.34"
-    }
+  "name": "mendix-client",
+  "author": "Andries Smit <andries.smit@flockofbirds.org>",
+  "description": "Type definition for Mendix client",
+  "version": "0.1.0",
+  "types": "index.d.ts",
+  "dependencies": {
+    "@types/big.js": "0.0.31",
+    "@types/dojo": "^1.9.34",
+    "big.js": "^3.1.3"
+  }
 }

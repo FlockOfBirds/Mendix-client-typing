@@ -44,3 +44,7 @@ lang.sequence([
 // Should return true
 validator.validate("100.12", "Integer") === validator.validation.NOT_INTEGER
 
+var domainModel = mx.meta.getMap();
+for(let key in domainModel) {
+  console.log(key);
+}

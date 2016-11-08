@@ -456,15 +456,15 @@ declare module mx {
     }
 
     interface meta {
-
+        getEntity(entity: string): mendix.lib.MxMetaObject;
+        getMap(): {[key: string]: mendix.lib.MxMetaObject};
     }
 
     type mendixAttributeType = "float" | "currency" | "autonumber" | "integer" | "long" | "decimal" | "datetime" | "boolean" | "binary" | "string" | "hashstring" | "enum";
     interface parser {
-        formatAttribute(object: mendix.lib.MxObject, attribute: mendixAttributeType, props?: any): string;
+        formatAttribute(object: mendix.lib.MxObject, attribute: string, props?: any): string;
         formatValue(value:any, type: string, props?: any): string;
-        parseValue(value: string, type: mendixAttributeType, props?: any): number|string|Date;
-        
+        parseValue(value: string, type: mendixAttributeType, props?: any): number|string|Date;        
     }
 
     interface server {

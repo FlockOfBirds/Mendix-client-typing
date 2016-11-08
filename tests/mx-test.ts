@@ -286,3 +286,6 @@ mx.parser.formatValue(+new Date(1980, 7, 23), "datetime", { datePattern: "dd-MM-
 
 mx.parser.parseValue("3,000.00", "currency"); // 3000
 mx.parser.parseValue("23-8-1980", "datetime", { datePattern: "dd-M-yyyy" }); // Date(1980, 7, 23)
+
+// https://apidocs.mendix.com/6/client/mx.meta.html
+mx.meta.getEntity("System.Image") // returns the MxMetaObject for System.Image

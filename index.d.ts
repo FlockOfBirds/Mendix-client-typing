@@ -141,8 +141,8 @@ declare module mxui {
     module widget {
 
         class _WidgetBase extends dijit._WidgetBase {
+            declaredClass: string;
             readOnly: boolean;
-
             subscribe(t: string, method: Function): any;
             /**
              * Subscribe to all changes in an MxObject

@@ -470,8 +470,15 @@ declare module mx {
     interface server {
 
     }
+
     interface session {
+        getUserId(): string;
         getCSRFToken(): string;
+        getUserAttribute(attr: string): string;
+        getUserClass(): string;
+        getUserClass(): string;
+        getUserName(): string;
+        getUserName(): boolean;
     }
 
     interface ui {

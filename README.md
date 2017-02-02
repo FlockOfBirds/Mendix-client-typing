@@ -13,7 +13,7 @@ https://apidocs.mendix.com/6/client/
 ```json
 {
     "compilerOptions": {
-        "types": ["mendix-client"]
+        "types": [ "mendix-client" ]
     }
 }
 ```
@@ -27,28 +27,32 @@ import * as WidgetBase from "mxui/widget/_WidgetBase";
 
 export class MyWidget extends WidgetBase {
     // Properties from Mendix modeler
-    private message: string;
-
+    private message: string; 
+    // Don`t assign default values, as the constructor will never be executed
+    // private info: "Hello World"; 
+    
     postCreate() {
         console.log("We have a widget ", this.message);
     }
 
-    update(object: mendix.lib.MxObject, callback: Function) {
+    update(object: mendix.lib.MxObject, callback?: Function) {
         console.log("We have a context", object);
 
-        callback();
+        if (callback) {
+            callback();
+        }
     }
 }
 
-dojoDeclare("com.mendix.widget.mywidget.MyWidget", [ WidgetBase ], (function (Source: any) {
-    let result: any = {};
-    for (let i in Source.prototype) {
+dojoDeclare("com.mendix.widget.mywidget.MyWidget", [ WidgetBase ], (function(Source: any) {
+    const result: any = {};
+    for (const i in Source.prototype) {
         if (i !== "constructor" && Source.prototype.hasOwnProperty(i)) {
             result[i] = Source.prototype[i];
         }
     }
     return result;
-} (MyWidget)));
+}(MyWidget)));
 ```
 More info about the Dojo declare hack for TypesScript: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/types-2.0/dojo/README.md 
 

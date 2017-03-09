@@ -211,7 +211,7 @@ declare module mxui {
                 callRecursive(method: string, ...param: any[]): void;
                 commit(callback: Function, error?: Function): void;
                 getChildren(nested: boolean): dijit._WidgetBase[];
-                listen(): number;
+                listen(eventName: string, listener: (callback: Function, error: Function) => void ): number;
                 publish(message: string, callback: Function, error: Function): void;
                 rollback(callback: Function, error?: Function): void;
                 save(callback: Function, error?: (error: Error) => void): void;

@@ -468,7 +468,25 @@ declare module mx {
     }
 
     interface server {
-
+        get(args: {
+            url: string,
+            handleAs: "text",
+            load: (response: string) => void,
+            error:(e: Error) => void,
+        }): void;
+        get(args: {
+            url: string,
+            handleAs: "json",
+            load: (response: object) => void,
+            error:(e: Error) => void,
+        }): void;
+        get(args: {
+            url: string,
+            handleAs: "xml",
+            load: (response: Document) => void,
+            error:(e: Error) => void,
+        }): void;
+        getCacheBust(): string;
     }
 
     interface session {

@@ -289,3 +289,19 @@ mx.parser.parseValue("23-8-1980", "datetime", { datePattern: "dd-M-yyyy" }); // 
 
 // https://apidocs.mendix.com/6/client/mx.meta.html
 mx.meta.getEntity("System.Image") // returns the MxMetaObject for System.Image
+
+// ---------------
+// Sample from https://apidocs.mendix.com/7/client/mx.server.html
+mx.server.getCacheBust(); 
+
+mx.server.get({
+    url: "/data/files/dogs.txt",
+    handleAs: "text",
+    load: function(response) {
+        console.log("dogs", response);
+    },
+    error: function(e) {
+        console.log("failed to retrieve resource");
+    }
+});
+

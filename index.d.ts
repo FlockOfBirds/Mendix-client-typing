@@ -278,6 +278,7 @@ declare module mx {
         appUrl: string;
         baseUrl: string;
         modulePath: string
+        remoteUrl: string;
         addOnLoad(callback: Function): void;
         login(username: string, password: string, onSuccess: Function, onError: Function): void;
         logout(): void;

@@ -6,6 +6,20 @@
 /// <reference types="dojo/dijit" />
 
 declare namespace mendix {
+    export interface mendix {
+        lang: mendix.lang;
+        lib: mendix.lib;
+    }
+
+    interface lib {
+        MxError: mendix.lib.MxError;
+        MxObject: mendix.lib.MxObject;
+        MxContext: mendix.lib.MxContext
+        MxMetaObject: mendix.lib.MxMetaObject;
+        ObjectValidation: mendix.lib.ObjectValidation;
+        ValidationError: mendix.lib.ValidationError;
+    }
+
     module lib {
         class MxError {
             constructor(message: string, original: any);
@@ -54,6 +68,7 @@ declare namespace mendix {
             setTrackId(guid: string): void;
             setTrackEntity(entity: string): void;
             setTrackObject(obj: mendix.lib.MxObject): void;
+            setContext(trackEntity: string, guid: string): void;
         }
 
         class MxMetaObject {
@@ -610,6 +625,7 @@ declare var logger: mendix.logger;
 declare var mx: mx.mx;
 
 interface Window {
+    mendix: mendix.mendix;
     mx: mx.mx;
     logger: mendix.logger;
 }

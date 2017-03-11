@@ -467,7 +467,12 @@ declare module mx {
             attr: string,
         }): void;
         saveDocument(guid: string,
-            name: string, params: any, blob: Blob, callback: Function, error: (error: Error) => void): void;
+            name: string, 
+            params: { width?: number, height?: number }, 
+            blob: Blob, 
+            callback: () => void,
+            error: (error: Error) => void
+        ): void;
 
     }
 

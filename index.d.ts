@@ -473,7 +473,7 @@ declare module mx {
             callback: () => void,
             error: (error: Error) => void
         ): void;
-
+        synchronizeDataWithFiles(successCallback: Function, failureCallback: (error: Error)=>void): void;
     }
 
     interface meta {
@@ -597,6 +597,7 @@ declare module mx {
         ): void,
         getTemplate(mxid: string, content: string): DocumentFragment,
         showLogin(messageCode: number): void;
+        translate(lib: string, errorName: string): string;
     }
 }
 

@@ -597,6 +597,7 @@ declare module mx {
         ): void,
         getTemplate(mxid: string, content: string): DocumentFragment,
         showLogin(messageCode: number): void;
+        reload(callback?: () => void): void;
         translate(lib: string, errorName: string): string;
     }
 }

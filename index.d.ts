@@ -567,7 +567,7 @@ declare module mx {
         /**
          * 
          */
-        showProgress(): number;
+        showProgress(message?: string | null, isBlocking?: boolean): number;
         /**
          * Hides the loading dialog.
          */

@@ -481,7 +481,8 @@ declare module mx {
             callback: () => void,
             error: (error: Error) => void
         ): void;
-        synchronizeDataWithFiles(successCallback: Function, failureCallback: (error: Error)=>void): void;
+        synchronizeDataWithFiles(successCallback: () => void, failureCallback: (error: Error)=>void): void;
+        synchronizeOffline(options: { fast: boolean }, successCallback: () => void, failureCallback: (error: Error)=>void): void;
     }
 
     interface meta {

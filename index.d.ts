@@ -12,15 +12,19 @@ declare namespace mendix {
     }
 
     interface lib {
-        MxError: mendix.lib.MxError;
+        MxError: mendix.lib.MxErrorConstructor;
         MxObject: mendix.lib.MxObject;
-        MxContext: mendix.lib.MxContext
+        MxContext: mendix.lib.MxContextConstructor;
         MxMetaObject: mendix.lib.MxMetaObject;
         ObjectValidation: mendix.lib.ObjectValidation;
         ValidationError: mendix.lib.ValidationError;
     }
 
     module lib {
+        interface MxErrorConstructor {
+            new (message: string, original: any): mendix.lib.MxError;
+        }
+
         class MxError {
             constructor(message: string, original: any);
         }
@@ -55,6 +59,10 @@ declare namespace mendix {
             removeReferences(attr: string, guids: string[]): boolean;
             set(attr: string, val: any): boolean;
             FetchCallback(requested: any): void;
+        }
+
+        interface MxContextConstructor {
+            new (): mendix.lib.MxContext;
         }
 
         class MxContext {

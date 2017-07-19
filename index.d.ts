@@ -482,6 +482,7 @@ declare module mx {
         ): void;
         synchronizeDataWithFiles(successCallback: () => void, failureCallback: (error: Error)=>void): void;
         synchronizeOffline(options: { fast: boolean }, successCallback: () => void, failureCallback: (error: Error)=>void): void;
+        getDocumentUrl(guid: string, changedDate: number, isThumbnail?: boolean): string;
     }
 
     interface meta {

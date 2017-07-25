@@ -202,7 +202,7 @@ declare module mxui {
             mxcontext: mendix.lib.MxContext;
             mxform: mxui.lib.form._FormBase;
             classes: string;
-            update(obj: mendix.lib.MxObject, callback?: Function): void;
+            update(obj: mendix.lib.MxObject, callback?: () => void): void;
             // connect(node: HTMLElement, event: string, callback: Function): any;
         }
 

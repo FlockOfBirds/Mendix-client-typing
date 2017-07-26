@@ -414,6 +414,8 @@ declare module mx {
             }
         }, scope?: Object): void;
         getBacktrackConstraints(metaObject: any, context: any, callback: (xpath: string, allMatched: boolean) => void): void;
+        getDocumentUrl(guid: string, changedDate: number, isThumbnail?: boolean): string;
+        getImageUrl(url: string, callback: (objectUrl: string) => void, error?: (error: Error) => void): void;
         release(objects: mendix.lib.MxObject | mendix.lib.MxObject[]): void;
         remove(arg: {
             guid?: string,

@@ -86,8 +86,9 @@ declare namespace mendix {
             getEnumMap(): { key: string, caption: string }[]
             getGuid(): string;
             getReference(reference: string): string;
+            getReferenceAttributes(): string[];
             getReferences(attr: string): number[];
-            getSelectorEntity(): string;
+            getSelectorEntity(attr: string): string;
             getSubEntities(): string[];
             getSuperEntities(): string[];
             hasChanges(): boolean;

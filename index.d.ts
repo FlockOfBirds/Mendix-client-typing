@@ -165,8 +165,11 @@ declare module mxui {
     module widget {
 
         class _WidgetBase extends dijit._WidgetBase {
+            readonly uniqueid: string;
+            readonly id: string;
             declaredClass: string;
             readOnly: boolean;
+            editNode? : any;
             subscribe(t: string, method: Function): any;
             /**
              * Subscribe to all changes in an MxObject

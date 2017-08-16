@@ -215,6 +215,8 @@ declare module mxui {
             iconUrl: string;
             iconVisible: boolean;
             updateOptions(attributes: string[], obj: mendix.lib.MxObject, callback?: Function): void;
+            enable(): void;
+            disable():void;
         }
 
         class Progress extends _WidgetBase {

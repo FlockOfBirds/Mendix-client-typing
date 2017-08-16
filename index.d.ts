@@ -239,7 +239,7 @@ declare module mxui {
                 title: string;
                 callRecursive(method: string, ...param: any[]): void;
                 commit(callback: () => void, error?: (error: Error) => void): void;
-                getChildren(nested: boolean): dijit._WidgetBase[];
+                getChildren(nested: boolean): mxui.widget._WidgetBase[];
                 listen(event: "validate" | "submit" | "commit" | "rollback", process: (success: () =>void, error: (error: Error) => void) => void ): number;
                 publish(message: string, callback: () => void, error: (error: Error) => void): void;
                 rollback(callback: () => void, error?: (error: Error) => void): void;

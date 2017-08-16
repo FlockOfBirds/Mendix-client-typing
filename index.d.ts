@@ -246,6 +246,8 @@ declare module mxui {
                 save(callback: () => void, error?: (error: Error) => void): void;
                 unlisten(handle: number): void;
                 validate(callback: () => void, error?: (error: Error) => void): void;
+                enable(): void;
+                disable(): void;
             }
 
             class InlineForm {

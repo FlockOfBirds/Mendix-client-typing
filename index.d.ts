@@ -267,6 +267,7 @@ declare module mxui {
         */
         addCss(path: string, doc?: Document, media?: string): void;
         create(element: string, props?: Object, ...children: HTMLElement[]): HTMLElement;
+        create(element: string, props?: Object, value?: string): HTMLElement;
         disableNode(node: HTMLElement): HTMLElement;
         enableNode(node: HTMLElement): HTMLElement;
         escapeString(string: string): string;

@@ -2,12 +2,10 @@
 
 This type definition is based on the Mendix client API documentation
 
-https://apidocs.mendix.com/6/client/
+https://apidocs.mendix.com/7/client/
 
 ## Installation
- * Install via NPM
-
-`npm install --save-dev https://github.com/FlockOfBirds/Mendix-client-typing`
+ > npm install --save-dev mendix-client
 
  * Add to your tsconfig.json
 ```json
@@ -29,6 +27,7 @@ export class MyWidget extends WidgetBase {
     // Properties from Mendix modeler
     private message: string; 
     // Don`t assign default values, as the constructor will never be executed
+    // alternative set them in the postCreate
     // private info: "Hello World"; 
     
     postCreate() {
@@ -57,4 +56,4 @@ dojoDeclare("com.mendix.widget.mywidget.MyWidget", [ WidgetBase ], (function(Sou
 More info about the Dojo declare hack for TypesScript: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/types-2.0/dojo/README.md 
 
 ## Dependency
- * Mendix 6 Modeler - https://appstore.home.mendix.com
+ * Mendix 7 Modeler - https://appstore.home.mendix.com

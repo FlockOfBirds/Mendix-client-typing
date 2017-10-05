@@ -6,7 +6,7 @@
 /// <reference types="dojo/dijit" />
 
 declare namespace mendix {
-    export interface mendix {
+    export interface MendixInterface {
         lang: mendix.lang;
         lib: mendix.lib;
     }
@@ -20,7 +20,7 @@ declare namespace mendix {
         ValidationError: mendix.lib.ValidationError;
     }
 
-    module lib {
+    namespace lib {
         interface MxErrorConstructor {
             new (message: string, original: any): mendix.lib.MxError;
         }
@@ -50,12 +50,12 @@ declare namespace mendix {
              * Gets an object or value of an attribute, through a path from this object.
              * The result is passed to a callback and depends on the requested path:
              */
-            fetch(path: string, callback: Function): void;
+            fetch(path: string, callback: () => void): void;
             /**
              * Returns the value of an attribute.
              * For reference attributes, use mendix/lib/MxObject#getReference and mendix/lib/MxObject#getReferences instead.
              */
-            get(attr: string): string | number | boolean; //add external big    
+            get(attr: string): string | number | boolean; // add external big
             removeReferences(attr: string, guids: string[]): boolean;
             set(attr: string, val: any): boolean;
             FetchCallback(requested: any): void;
@@ -83,7 +83,7 @@ declare namespace mendix {
             getAttributes(): string[];
             getEntity(): string;
             getEnumCaption(attr: string, value: string): string;
-            getEnumMap(): { key: string, caption: string }[]
+            getEnumMap(): { key: string, caption: string }[];
             getGuid(): string;
             getReference(reference: string): string;
             getReferenceAttributes(): string[];
@@ -95,7 +95,7 @@ declare namespace mendix {
             hasSubEntities(): boolean;
             hasSuperEntities(): boolean;
             inheritsFrom(claz: string): boolean;
-            isA(claz: string): boolean
+            isA(claz: string): boolean;
             isBoolean(att: string): boolean;
             isDate(att: string): boolean;
             isEnum(att: string): boolean;
@@ -123,15 +123,15 @@ declare namespace mendix {
         }
     }
     class lang {
-        collect(chain: ChainCallback, callback?: Function, scope?: Object): void;
-        delay(func: Function, condition: Function, period?: number): number;
+        collect(chain: ChainCallback, callback?: () => void, scope?: Object): void;
+        delay(func: () => void, condition: () => boolean, period?: number): number;
         getUniqueId(): string;
-        map(objOrArray: Object | Object[], func: (callback: Function) => void, scope?: Object): any[];
-        sequence(chain: ChainCallback, callback?: Function, scope?: Object): void;
-        nullExec(callback: Function): void;
+        map<T>(objOrArray: T[], func: (callback: (value: T) => void) => void, scope?: Object): any[];
+        sequence(chain: ChainCallback, callback?: () => void, scope?: Object): void;
+        nullExec(callback: () => void): void;
     }
 
-    type ChainCallback = ((callback: Function) => void)[];
+    type ChainCallback = ((callback: () => void) => void)[];
 
     class validator {
         validation: {
@@ -145,7 +145,7 @@ declare namespace mendix {
         validate(value: any, type: string): number;
     }
 
-    class logger {
+    class Logger {
         error(...info: any[]): void;
         debug(...info: any[]): void;
         info(...info: any[]): void;
@@ -156,20 +156,25 @@ declare namespace mendix {
 }
 
 declare module "mendix/lib/MxObject" {
-    var obj: mendix.lib.MxObject;
+    const obj: mendix.lib.MxObject;
     export = obj;
 }
 
-declare module mxui {
+declare namespace mxui {
 
-    module widget {
+    namespace widget {
 
         class _WidgetBase extends dijit._WidgetBase {
             readonly uniqueid: string;
             readonly id: string;
             declaredClass: string;
             readOnly: boolean;
-            editNode? : any;
+            editNode?: any;
+            mxcontext: mendix.lib.MxContext;
+            mxform: mxui.lib.form._FormBase;
+            classes: string;
+            // for dojo inheritance require to provide this signature
+            // tslint:disable-next-line ban-types
             subscribe(t: string, method: Function): any;
             /**
              * Subscribe to all changes in an MxObject
@@ -203,9 +208,6 @@ declare module mxui {
             }): number;
             // refresh(callback?: Function);
             unsubscribeAll(): void;
-            mxcontext: mendix.lib.MxContext;
-            mxform: mxui.lib.form._FormBase;
-            classes: string;
             update(obj: mendix.lib.MxObject, callback?: () => void): void;
             // connect(node: HTMLElement, event: string, callback: Function): any;
         }
@@ -214,9 +216,9 @@ declare module mxui {
             caption: string;
             iconUrl: string;
             iconVisible: boolean;
-            updateOptions(attributes: string[], obj: mendix.lib.MxObject, callback?: Function): void;
+            updateOptions(attributes: string[], obj: mendix.lib.MxObject, callback?: () => void): void;
             enable(): void;
-            disable():void;
+            disable(): void;
         }
 
         class Progress extends _WidgetBase {
@@ -227,20 +229,20 @@ declare module mxui {
         }
     }
 
-    module lib {
+    namespace lib {
 
-        module form {
+        namespace form {
 
             class _FormBase {
-                constructor();
                 domNode: HTMLElement;
                 id: string;
                 path: string;
                 title: string;
+                constructor();
                 callRecursive(method: string, ...param: any[]): void;
                 commit(callback: () => void, error?: (error: Error) => void): void;
                 getChildren(nested: boolean): mxui.widget._WidgetBase[];
-                listen(event: "validate" | "submit" | "commit" | "rollback", process: (success: () =>void, error: (error: Error) => void) => void ): number;
+                listen(event: "validate" | "submit" | "commit" | "rollback", process: (success: () => void, error: (error: Error) => void) => void): number;
                 publish(message: string, callback: () => void, error: (error: Error) => void): void;
                 rollback(callback: () => void, error?: (error: Error) => void): void;
                 save(callback: () => void, error?: (error: Error) => void): void;
@@ -259,18 +261,17 @@ declare module mxui {
 
     interface dom {
         /**
-        * Add a link to the given stylesheet to a document.
-        * @param path    path of the stylesheet location
-        * @param doc    document to add the stylesheet link to. Defaults to document.
-        * @media media    string describing the media types supported by the stylesheet
-        * 
-        */
+         * Add a link to the given stylesheet to a document.
+         * @param path - path of the stylesheet location
+         * @param doc - document to add the stylesheet link to. Defaults to document.
+         * @media media - string describing the media types supported by the stylesheet
+         */
         addCss(path: string, doc?: Document, media?: string): void;
         create(element: string, props?: Object, ...children: HTMLElement[]): HTMLElement;
         create(element: string, props?: Object, value?: string): HTMLElement;
         disableNode(node: HTMLElement): HTMLElement;
         enableNode(node: HTMLElement): HTMLElement;
-        escapeString(string: string): string;
+        escapeString(valueString: string): string;
         getCss(path: string, doc?: Document): HTMLLinkElement;
         getCursorPosition(input: HTMLInputElement): number;
         getSelectedText(node: HTMLSelectElement): string;
@@ -282,7 +283,7 @@ declare module mxui {
 
     }
 
-    module html {
+    namespace html {
         interface parser {
             instantiate(list: HTMLElement[], defaults: Object): mxui.widget._WidgetBase[];
             parse(root: HTMLElement, defaults: Object): mxui.widget._WidgetBase[];
@@ -290,21 +291,21 @@ declare module mxui {
     }
 }
 
-declare module mx {
-    export interface mx {
+declare namespace mx {
+    export interface MxInterface {
         appUrl: string;
         baseUrl: string;
-        modulePath: string
+        modulePath: string;
         remoteUrl: string;
-        addOnLoad(callback: Function): void;
-        login(username: string, password: string, onSuccess: Function, onError: Function): void;
-        logout(): void;
         data: mx.data;
         meta: mx.meta;
         parser: mx.parser;
         server: mx.server;
         session: mx.session;
         ui: mx.ui;
+        addOnLoad(callback: () => void): void;
+        login(username: string, password: string, onSuccess: () => void, onError: () => void): void;
+        logout(): void;
         onError(error: Error): void;
     }
 
@@ -317,25 +318,25 @@ declare module mx {
                 xpath?: string,
                 constraints?: string,
                 sort?: any,
-                gridid?: string,
+                gridid?: string
             },
             context?: mendix.lib.MxContext,
             origin?: mxui.lib.form._FormBase,
             async?: boolean,
             callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,
             error?: (e: Error) => void,
-            onValidation?: (validations: mendix.lib.ObjectValidation[]) => void,
+            onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: any): void;
         commit(args: {
             mxobj: mendix.lib.MxObject,
-            callback: Function,
+            callback: () => void,
             error?: (e: Error) => void,
-            onValidation?: Function
+            onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: Object): void;
         create(arg: {
             entity: string,
             callback: (obj: mendix.lib.MxObject) => void,
-            error: (e: Error) => void,
+            error: (e: Error) => void
         }, scope?: Object): void;
         createXPathString(arg: {
             entity: string,
@@ -343,7 +344,7 @@ declare module mx {
             callback: (xpath: string, allMatched: boolean) => void
         }): void;
         /**
-         * Retrieves MxObjects from the Runtime. Using guid 
+         * Retrieves MxObjects from the Runtime. Using guid
          */
         get(args: {
             guid: string,
@@ -403,14 +404,14 @@ declare module mx {
             }
         }, scope?: Object): void;
         /**
-         * Retrieves MxObjects from the Runtime. Using microflow 
+         * Retrieves MxObjects from the Runtime. Using microflow
          */
         get(args: {
             microflow: string,
             noCache?: boolean,
             count?: boolean,
             path?: string,
-            callback: Function,
+            callback: (result?: any) => void,
             error: (e: Error) => void,
             filter?: {
                 id: string,
@@ -429,18 +430,18 @@ declare module mx {
         remove(arg: {
             guid?: string,
             guids?: string[],
-            callback: Function,
+            callback: () => void,
             error: (e: Error) => void
         }, scope?: Object): void;
         rollback(args: {
             mxobj: mendix.lib.MxObject;
-            callback: Function,
+            callback: () => void,
             error: (e: Error) => void,
 
         }, scope?: Object): void;
         save(args: {
             mxobj?: mendix.lib.MxObject;
-            callback?: Function,
+            callback?: () => void,
             error?: (e: Error) => void,
 
         }, scope?: Object): void;
@@ -449,7 +450,7 @@ declare module mx {
          */
         subscribe(args: {
             guid: string,
-            callback: (guid: number) => void,
+            callback: (guid: number) => void
         }): number;
         /**
          * Registers a callback to be invoked on changes in an attribute of a MxObject
@@ -457,7 +458,7 @@ declare module mx {
         subscribe(args: {
             guid: string,
             attr: string,
-            callback: (guid: number, attr: string, attrValue: any) => void,
+            callback: (guid: number, attr: string, attrValue: any) => void
         }): number;
         /**
          * Registers a callback to be invoked on validations errors in a specific MxObject.
@@ -465,34 +466,34 @@ declare module mx {
         subscribe(args: {
             guid: string,
             val: boolean,
-            callback: (validations: mendix.lib.ObjectValidation[]) => void,
+            callback: (validations: mendix.lib.ObjectValidation[]) => void
         }): number;
         /**
-         * Registers a callback to be invoked on changes specific entity 
+         * Registers a callback to be invoked on changes specific entity
          */
         subscribe(args: {
             entity: string,
-            callback: (entity: string) => void,
+            callback: (entity: string) => void
         }): number;
         unsubscribe(handle: number): void;
         update(args: {
             guid?: string,
-            entity?: string,
+            entity?: string
         }): void;
         // update attribute
         update(args: {
             guid: string,
-            attr: string,
+            attr: string
         }): void;
         saveDocument(guid: string,
-            name: string, 
-            params: { width?: number, height?: number }, 
-            blob: Blob, 
-            callback: () => void,
-            error: (error: Error) => void
+                     name: string,
+                     params: { width?: number, height?: number },
+                     blob: Blob,
+                     callback: () => void,
+                     error: (error: Error) => void
         ): void;
-        synchronizeDataWithFiles(successCallback: () => void, failureCallback: (error: Error)=>void): void;
-        synchronizeOffline(options: { fast: boolean }, successCallback: () => void, failureCallback: (error: Error)=>void): void;
+        synchronizeDataWithFiles(successCallback: () => void, failureCallback: (error: Error) => void): void;
+        synchronizeOffline(options: { fast: boolean }, successCallback: () => void, failureCallback: (error: Error) => void): void;
     }
 
     interface meta {
@@ -512,19 +513,19 @@ declare module mx {
             url: string,
             handleAs: "text",
             load: (response: string) => void,
-            error:(e: Error) => void,
+            error: (e: Error) => void
         }): void;
         get(args: {
             url: string,
             handleAs: "json",
-            load: (response: object) => void,
-            error:(e: Error) => void,
+            load: (response: Object) => void,
+            error: (e: Error) => void
         }): void;
         get(args: {
             url: string,
             handleAs: "xml",
             load: (response: Document) => void,
-            error:(e: Error) => void,
+            error: (e: Error) => void
         }): void;
         getCacheBust(): string;
     }
@@ -557,14 +558,14 @@ declare module mx {
                 xpath?: string,
                 constraints?: string,
                 sort?: any,
-                gridid?: string,
+                gridid?: string
             },
             context?: mendix.lib.MxContext,
             origin?: mxui.lib.form._FormBase,
             async?: boolean,
             callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,
             error?: (e: Error) => void,
-            onValidation?: Function,
+            onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: any): void;
 
         /**
@@ -574,7 +575,7 @@ declare module mx {
         /**
          * Shows a confirmation dialog before calling a given function.
          */
-        confirmation(args: { content: string, proceed: string, cancel: string, handler: Function }): void;
+        confirmation(args: { content: string, proceed: string, cancel: string, handler: () => void }): void;
         /**
          * Shows an error message.
          */
@@ -584,7 +585,7 @@ declare module mx {
          */
         exception(msg: string): void;
         /**
-         * 
+         *
          */
         showProgress(message?: string | null, isBlocking?: boolean): number;
         /**
@@ -604,17 +605,17 @@ declare module mx {
          * Opens a form, either in content, in a DOM node or in a (modal) popup
          */
         openForm(path: string,
-            args?: {
+                 args?: {
                 location?: "content" | "popup" | "modal",
                 domNode?: HTMLElement,
                 title?: string,
                 context?: mendix.lib.MxContext,
                 callback?(form: mxui.lib.form._FormBase): void,
-                error?(error: Error): void,
+                error?(error: Error): void
             },
-            scope?: any
-        ): void,
-        getTemplate(mxid: string, content: string): DocumentFragment,
+                 scope?: any
+        ): void;
+        getTemplate(mxid: string, content: string): DocumentFragment;
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;
         translate(lib: string, errorName: string): string;
@@ -622,37 +623,36 @@ declare module mx {
 }
 
 declare module "mxui/widget/_WidgetBase" {
-    var _WidgetBase: typeof mxui.widget._WidgetBase;
+    const _WidgetBase: typeof mxui.widget._WidgetBase;
     export = _WidgetBase;
 }
 
-
 declare module "mxui/dom" {
-    var array: mxui.dom;
+    const array: mxui.dom;
     export = array;
 }
 
 declare module "mendix/lang" {
-    var lang: mendix.lang;
+    const lang: mendix.lang;
     export = lang;
 }
 
 declare module "mendix/validator" {
-    var validator: mendix.validator;
+    const validator: mendix.validator;
     export = validator;
 }
 
 declare module "mendix/logger" {
-    var logger: mendix.logger;
-    export = logger;
+    const loggerObject: mendix.Logger;
+    export = loggerObject;
 }
 
 // Declaration of mendix global variables
-declare var logger: mendix.logger;
-declare var mx: mx.mx;
+declare const logger: mendix.Logger;
+declare const mx: mx.MxInterface;
 
 interface Window {
-    mendix: mendix.mendix;
-    mx: mx.mx;
-    logger: mendix.logger;
+    mendix: mendix.MendixInterface;
+    mx: mx.MxInterface;
+    logger: mendix.Logger;
 }

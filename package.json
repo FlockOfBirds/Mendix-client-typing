@@ -1,10 +1,10 @@
 {
   "name": "mendix-client",
   "author": "Andries Smit <andries.smit@flockofbirds.org>",
-  "description": "Type definition for Mendix client",
+  "description": "Typescript type definition for Mendix client",
   "version": "7.4.1",
   "types": "index.d.ts",
-  "scripts": { 
+  "scripts": {
     "test": "tsc"
   },
   "dependencies": {

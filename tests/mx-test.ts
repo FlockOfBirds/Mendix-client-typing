@@ -121,17 +121,46 @@ mx.data.get({
         console.log("Received " + objects.length + " MxObjects");
     }
 });
+// Deprecated
+// mx.data.getBacktrackConstraints(null, someContext, function (xpath, allMatched) {
+//     if (allMatched) {
+//         console.log("All backtracking constraints were met, xpath is: " + xpath);
+//     } else {
+//         console.log("Some backtracking constraints could not be met");
+//     }
+// });
 
-mx.data.getBacktrackConstraints(null, someContext, function (xpath, allMatched) {
-    if (allMatched) {
-        console.log("All backtracking constraints were met, xpath is: " + xpath);
-    } else {
-        console.log("Some backtracking constraints could not be met");
-    }
+mx.data.getOffline("MyFirstModule.Pet", null, null, function(mxobjs, count) {
+    console.log("There are " + count + " pets");
 });
 
-mx.data.release(obj) // releases a single object
-mx.data.release([obj, obj]) // releases two objects
+mx.data.getOffline("MyFirstModule.Pet", [ {
+        attribute: "MyFirstModule.Pet_Person",
+        operator: "equals",
+        value: "1234" // the guid of the owner, which is a Person entity
+    } ], null, function (mxobjs, count) {
+        console.log("There are " + count + " pets referring to owner 1234");
+    }
+);
+
+mx.data.getOffline("MyFirstModule.Pet", [{
+            attribute: "Name",
+            operator: "contains",
+            value: "ed"
+        }, {
+            attribute: "Age",
+            operator: "greaterThan",
+            value: 2
+        }], {
+        offset: 15,
+        limit: 5,
+        sort: [["Name", "asc"], ["Age", "desc"]]
+    }, function (mxobjs, count) {
+        console.log("Pets that matched your filter: " + mxobjs.length);
+        console.log("Pets that matched your query: " + count);
+    }, function (e) {
+        console.error("Could not retrieve slice:", e);
+});
 
 mx.data.remove({
     guid: "123456",
@@ -163,12 +192,13 @@ mx.data.rollback({
     }
 });
 
-mx.data.save({
-    mxobj: obj,
-    callback: function () {
-        console.log("ok");
-    }
-});
+// Deprecated
+// mx.data.save({
+//     mxobj: obj,
+//     callback: function () {
+//         console.log("ok");
+//     }
+// });
 
 var fileBlob = new Blob();
 mx.data.saveDocument("123456", "Bunnies.jpg", { width: 180, height: 180 }, fileBlob, function () {
@@ -256,6 +286,30 @@ mx.ui.exception("Some exception");
 mx.ui.error("Some Info", true);
 
 mx.ui.getTemplate("12", "content"); // Template 'content' for widget with mxid '12'
+// Based on https://apidocs.mendix.com/7/client/mxui_lib_form__FormBase.html
+// Disable all child widgets of the form (you would normally use .enable() for this).
+form.callRecursive("set", form.disable, true);
+
+form.close();
+
+mx.ui.openForm("MyFirstModule/Puppies.page.xml", {
+    location: "popup",
+    callback: function(form) {
+        // List all direct child widgets in the popup.
+        console.log(form.getChildren());
+
+        // List all child widgets in the popup.
+        console.log(form.getChildren(true));
+    }
+});
+
+form.listen("commit", function(callback, error) {
+    callback();
+});
+
+this.connect(this.mxform, form.onNavigation, function() {
+   // custom logic
+});
 
 mx.ui.openForm("MyFirstModule/Puppies.page.xml", {
     location: "popup",

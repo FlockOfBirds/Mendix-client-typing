@@ -12,7 +12,6 @@ declare namespace mendix {
     }
 
     interface lib {
-        MxError: mendix.lib.MxErrorConstructor;
         MxObject: mendix.lib.MxObject;
         MxContext: mendix.lib.MxContextConstructor;
         MxMetaObject: mendix.lib.MxMetaObject;
@@ -21,26 +20,19 @@ declare namespace mendix {
     }
 
     namespace lib {
-        interface MxErrorConstructor {
-            new (message: string, original: any): mendix.lib.MxError;
-        }
-
-        class MxError {
-            constructor(message: string, original: any);
-        }
         class MxObject extends MxMetaObject {
             /**
              * If attr is a reference attribute, sets it to the given object. If attr is a reference set attribute, adds the given object to it.
              * @param attr The reference attribute. Can refer to either a reference or reference set attribute.
              * @param guid GUID of the object to add to the reference
              */
-            addReference(attr: string, guid: string | number): boolean;
+            addReference(attribute: string, guid: string | number): boolean;
             /**
              * Add an object to a reference set attribute.
              * @param attr the reference set attribute
              * @param guids GUIDs of the objects to add to the reference
              */
-            addReferences(attr: string, guids: string[] | number[]): boolean;
+            addReferences(attribute: string, guids: string[] | number[]): boolean;
             /**
              * Compare this MxObject to another MxObject and find out if they are the same.
              * This means they have the same Entity type and their attributes have the same value.
@@ -50,15 +42,14 @@ declare namespace mendix {
              * Gets an object or value of an attribute, through a path from this object.
              * The result is passed to a callback and depends on the requested path:
              */
-            fetch(path: string, callback: () => void): void;
+            fetch(path: string, callback: (requested: any) => void): void;
             /**
              * Returns the value of an attribute.
              * For reference attributes, use mendix/lib/MxObject#getReference and mendix/lib/MxObject#getReferences instead.
              */
-            get(attr: string): string | number | boolean; // add external big
-            removeReferences(attr: string, guids: string[]): boolean;
-            set(attr: string, val: any): boolean;
-            FetchCallback(requested: any): void;
+            get(attribute: string): string | number | boolean; // add external big
+            removeReferences(attribute: string, guids: string[]): boolean;
+            set(attribute: string, value: any): boolean;
         }
 
         interface MxContextConstructor {
@@ -73,22 +64,27 @@ declare namespace mendix {
             hasTrackEntity(): boolean;
             hasTrackId(): boolean;
             hasTrackObject(): boolean;
-            setTrackId(guid: string): void;
-            setTrackEntity(entity: string): void;
+            // Deprecated: since version 7.0, use setContext instead.
+            // setTrackId(guid: string): void;
+            // Deprecated: since version 7.0, use setContext instead.
+            // setTrackEntity(entity: string): void;
             setTrackObject(obj: mendix.lib.MxObject): void;
             setContext(trackEntity: string, guid: string): void;
         }
 
+        type AttributeTypes = "Enum" | "EnumSet" | "Integer" | "Long" | "Decimal" | "Float" | "Currency" | "HashString" | "Date" | "DateTime" | "Boolean" | "ObjectReference" | "ObjectReferenceSet" | "ObjectReference" | "ObjectReferenceSet";
+
         class MxMetaObject {
             getAttributes(): string[];
             getEntity(): string;
-            getEnumCaption(attr: string, value: string): string;
+            getEnumCaption(attribute: string, value: string): string;
             getEnumMap(): { key: string, caption: string }[];
             getGuid(): string;
             getReference(reference: string): string;
             getReferenceAttributes(): string[];
-            getReferences(attr: string): number[];
-            getSelectorEntity(attr: string): string;
+            getAttributeType(attribute: string): AttributeTypes;
+            getReferences(attribute: string): number[];
+            getSelectorEntity(attribute: string): string;
             getSubEntities(): string[];
             getSuperEntities(): string[];
             hasChanges(): boolean;
@@ -110,12 +106,12 @@ declare namespace mendix {
         }
 
         class ObjectValidation {
-            addAttribute(attr: string, message: string): boolean;
+            addAttribute(attribute: string, message: string): boolean;
             clone(): ObjectValidation;
             getAttributes(): { name: string, reason: string }[];
-            getErrorReason(attr: string): string;
+            getErrorReason(attribute: string): string;
             getGuid(): string;
-            removeAttribute(attr: string): void;
+            removeAttribute(attribute: string): void;
         }
 
         class ValidationError {
@@ -126,9 +122,10 @@ declare namespace mendix {
         collect(chain: ChainCallback, callback?: () => void, scope?: Object): void;
         delay(func: () => void, condition: () => boolean, period?: number): number;
         getUniqueId(): string;
-        map<T>(objOrArray: T[], func: (callback: (value: T) => void) => void, scope?: Object): any[];
+        map<T, U>(objOrArray: T[], func: (callback: (value: T) => void) => U, scope?: Object): U[];
         sequence(chain: ChainCallback, callback?: () => void, scope?: Object): void;
-        nullExec(callback: () => void): void;
+        // Deprecated
+        // nullExec(callback: () => void): void;
     }
 
     type ChainCallback = ((callback: () => void) => void)[];
@@ -240,16 +237,19 @@ declare namespace mxui {
                 title: string;
                 constructor();
                 callRecursive(method: string, ...param: any[]): void;
+                close(): void;
                 commit(callback: () => void, error?: (error: Error) => void): void;
-                getChildren(nested: boolean): mxui.widget._WidgetBase[];
+                getChildren(nested?: boolean): mxui.widget._WidgetBase[];
                 listen(event: "validate" | "submit" | "commit" | "rollback", process: (success: () => void, error: (error: Error) => void) => void): number;
                 publish(message: string, callback: () => void, error: (error: Error) => void): void;
                 rollback(callback: () => void, error?: (error: Error) => void): void;
-                save(callback: () => void, error?: (error: Error) => void): void;
+                // Deprecated: since version 6.8, use mx.data.commit instead
+                // save(callback: () => void, error?: (error: Error) => void): void;
                 unlisten(handle: number): void;
                 validate(callback: () => void, error?: (error: Error) => void): void;
                 enable(): void;
                 disable(): void;
+                onNavigation(): void;
             }
 
             class InlineForm {
@@ -277,7 +277,7 @@ declare namespace mxui {
         getSelectedText(node: HTMLSelectElement): string;
         getSelectedValue(node: HTMLSelectElement): string;
         getSelection(input: HTMLInputElement): { start: number, end: number };
-        removeCss(filepath: string, doc?: Document): boolean;
+        removeCss(filePath: string, doc?: Document): boolean;
         selectTextRange(input: HTMLInputElement, selectionStart: number, selectionEnd: number): void;
         setSelectOptions(node: HTMLSelectElement, options: Object, selected: string): void;
 
@@ -309,6 +309,12 @@ declare namespace mx {
         onError(error: Error): void;
     }
 
+    type Sort = [ string, "desc" | "asc" ];
+    type FilterOperator = "equals" | "lessThan" | "lessThanOrEquals" | "greaterThan" | "greaterThanOrEquals" | "contains";
+    interface ReferencesSpec { attributes: string[]; amount: number; sort: Sort; }
+    interface OfflineFilter { offset?: number; limit?: number; sort?: Sort[]; }
+    interface OfflineConstraint { attribute: string; operator: string; value: string|number; negate?: boolean; }
+
     interface data {
         action(action: {
             params: {
@@ -317,30 +323,30 @@ declare namespace mx {
                 guids?: string[],
                 xpath?: string,
                 constraints?: string,
-                sort?: any,
+                sort?: Sort[],
                 gridid?: string
             },
             context?: mendix.lib.MxContext,
             origin?: mxui.lib.form._FormBase,
             async?: boolean,
             callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
-        }, scope?: any): void;
+        }, scope?: Object): void;
         commit(args: {
             mxobj: mendix.lib.MxObject,
             callback: () => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: Object): void;
         create(arg: {
             entity: string,
             callback: (obj: mendix.lib.MxObject) => void,
-            error: (e: Error) => void
+            error: (error: Error) => void
         }, scope?: Object): void;
         createXPathString(arg: {
             entity: string,
-            context: any,
+            context: mendix.lib.MxContext,
             callback: (xpath: string, allMatched: boolean) => void
         }): void;
         /**
@@ -352,15 +358,15 @@ declare namespace mx {
             count?: boolean,
             path?: string,
             callback: (object: mendix.lib.MxObject) => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             filter?: {
                 id?: string,
-                attributes?: any[],
+                attributes?: string[],
                 offset?: number,
-                sort?: any[],
+                sort?: Sort[],
                 amount?: number,
                 distinct?: boolean,
-                references?: Object
+                references?: ReferencesSpec
             }
         }, scope?: Object): void;
         /**
@@ -372,15 +378,15 @@ declare namespace mx {
             count?: boolean,
             path?: string,
             callback: (objects: mendix.lib.MxObject[]) => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             filter?: {
                 id?: string,
-                attributes?: any[],
+                attributes?: string[],
                 offset?: number,
-                sort?: any[],
+                sort?: Sort[],
                 amount?: number,
                 distinct?: boolean,
-                references?: Object
+                references?: ReferencesSpec
             }
         }, scope?: Object): void;
         /**
@@ -392,15 +398,15 @@ declare namespace mx {
             count?: boolean,
             path?: string,
             callback: (objects: mendix.lib.MxObject[]) => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             filter?: {
                 id?: string,
-                attributes?: any[],
+                attributes?: string[],
                 offset?: number,
-                sort?: any[],
+                sort?: Sort[],
                 amount?: number,
                 distinct?: boolean,
-                references?: Object
+                references?: ReferencesSpec
             }
         }, scope?: Object): void;
         /**
@@ -412,39 +418,42 @@ declare namespace mx {
             count?: boolean,
             path?: string,
             callback: (result?: any) => void,
-            error: (e: Error) => void,
+            error: (error: Error) => void,
             filter?: {
                 id: string,
-                attributes: any[],
+                attributes: string[],
                 offset: number,
-                sort: any[],
+                sort: Sort[],
                 amount: number,
                 distinct: boolean,
-                references: Object
+                references: ReferencesSpec
             }
         }, scope?: Object): void;
-        getBacktrackConstraints(metaObject: any, context: any, callback: (xpath: string, allMatched: boolean) => void): void;
+        // Deprecated: since version 7.0.
+        // getBacktrackConstraints(metaObject: mendix.lib.MxMetaObject, context: mendix.lib.MxContext, callback: (xpath: string, allMatched: boolean) => void): void;
+        getOffline(entity: string, constraints?: OfflineConstraint[], filter?: OfflineFilter, callback?: (objects: mendix.lib.MxObject[], count: number) => void, error?: (error: Error) => void): void;
         getDocumentUrl(guid: string, changedDate: number, isThumbnail?: boolean): string;
         getImageUrl(url: string, callback: (objectUrl: string) => void, error?: (error: Error) => void): void;
-        release(objects: mendix.lib.MxObject | mendix.lib.MxObject[]): void;
+        // Deprecated since version 7.0. Mendix objects don't have to be released anymore. A Mendix object is kept in cache as long as there is a subscription to it.
+        // release(objects: mendix.lib.MxObject | mendix.lib.MxObject[]): void;
         remove(arg: {
             guid?: string,
             guids?: string[],
             callback: () => void,
-            error: (e: Error) => void
+            error: (error: Error) => void
         }, scope?: Object): void;
         rollback(args: {
             mxobj: mendix.lib.MxObject;
             callback: () => void,
-            error: (e: Error) => void,
+            error: (error: Error) => void,
 
         }, scope?: Object): void;
-        save(args: {
-            mxobj?: mendix.lib.MxObject;
-            callback?: () => void,
-            error?: (e: Error) => void,
-
-        }, scope?: Object): void;
+        // Deprecated: since version 6.8, use mx.data.commit and mx.data.action instead
+        // save(args: {
+        //     mxobj?: mendix.lib.MxObject;
+        //     callback?: () => void,
+        //     error?: (error: Error) => void,
+        // }, scope?: Object): void;
         /**
          * Registers a callback to be invoked on changes in an MxObject
          */
@@ -501,11 +510,14 @@ declare namespace mx {
         getMap(): { [key: string]: mendix.lib.MxMetaObject };
     }
 
-    type mendixAttributeType = "float" | "currency" | "autonumber" | "integer" | "long" | "decimal" | "datetime" | "boolean" | "binary" | "string" | "hashstring" | "enum";
+    // type MendixAttributeType = "float" | "currency" | "autonumber" | "integer" | "long" | "decimal" | "datetime" | "boolean" | "binary" | "string" | "hashstring" | "enum";
     interface parser {
         formatAttribute(object: mendix.lib.MxObject, attribute: string, props?: any): string;
         formatValue(value: any, type: string, props?: any): string;
-        parseValue(value: string, type: mendixAttributeType, props?: any): number | string | Date;
+        parseValue(value: string, type: "autonumber" | "string" | "hashstring" | "enum" , props?: any): string;
+        parseValue(value: string, type: "boolean", props?: any): boolean;
+        parseValue(value: string, type: "datetime", props?: any): number; // Date
+        parseValue(value: string, type: "float" | "currency" | "integer" | "long" | "decimal" , props?: any): any; // should be Big;
     }
 
     interface server {
@@ -513,31 +525,32 @@ declare namespace mx {
             url: string,
             handleAs: "text",
             load: (response: string) => void,
-            error: (e: Error) => void
+            error: (error: Error) => void
         }): void;
         get(args: {
             url: string,
             handleAs: "json",
             load: (response: Object) => void,
-            error: (e: Error) => void
+            error: (error: Error) => void
         }): void;
         get(args: {
             url: string,
             handleAs: "xml",
             load: (response: Document) => void,
-            error: (e: Error) => void
+            error: (error: Error) => void
         }): void;
         getCacheBust(): string;
+        // Deprecated since version 7.0, use methods of mx.data instead to access or operate on objects or to invoke microflows.
+        // request(args);
     }
 
     interface session {
         getUserId(): string;
         getCSRFToken(): string;
-        getUserAttribute(attr: string): string;
-        getUserClass(): string;
+        getUserAttribute(attribute: string): any;
         getUserClass(): string;
         getUserName(): string;
-        getUserName(): boolean;
+        isGuest(): boolean;
     }
 
     interface ui {
@@ -557,16 +570,16 @@ declare namespace mx {
                 guids?: string[],
                 xpath?: string,
                 constraints?: string,
-                sort?: any,
+                sort?: Sort[],
                 gridid?: string
             },
             context?: mendix.lib.MxContext,
             origin?: mxui.lib.form._FormBase,
             async?: boolean,
             callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,
-            error?: (e: Error) => void,
+            error?: (error: Error) => void,
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
-        }, scope?: any): void;
+        }, scope?: Object): void;
 
         /**
          * Goes one step back in history, closing the current in content Form.
@@ -604,17 +617,14 @@ declare namespace mx {
         /**
          * Opens a form, either in content, in a DOM node or in a (modal) popup
          */
-        openForm(path: string,
-                 args?: {
-                location?: "content" | "popup" | "modal",
-                domNode?: HTMLElement,
-                title?: string,
-                context?: mendix.lib.MxContext,
-                callback?(form: mxui.lib.form._FormBase): void,
-                error?(error: Error): void
-            },
-                 scope?: any
-        ): void;
+        openForm(path: string, args?: {
+            location?: "content" | "popup" | "modal",
+            domNode?: HTMLElement,
+            title?: string,
+            context?: mendix.lib.MxContext,
+            callback?(form: mxui.lib.form._FormBase): void,
+            error?(error: Error): void
+        }, scope?: Object): void;
         getTemplate(mxid: string, content: string): DocumentFragment;
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;

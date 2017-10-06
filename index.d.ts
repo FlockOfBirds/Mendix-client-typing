@@ -628,7 +628,7 @@ declare namespace mx {
         getTemplate(mxid: string, content: string): DocumentFragment;
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;
-        translate(lib: string, errorName: string): string;
+        translate(lib: string, errorName: string, values?: any[]): string;
     }
 }
 

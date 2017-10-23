@@ -495,11 +495,11 @@ declare namespace mx {
             attr: string
         }): void;
         saveDocument(guid: string,
-                     name: string,
-                     params: { width?: number, height?: number },
-                     blob: Blob,
-                     callback: () => void,
-                     error: (error: Error) => void
+            name: string,
+            params: { width?: number, height?: number },
+            blob: Blob,
+            callback: () => void,
+            error: (error: Error) => void
         ): void;
         synchronizeDataWithFiles(successCallback: () => void, failureCallback: (error: Error) => void): void;
         synchronizeOffline(options: { fast: boolean }, successCallback: () => void, failureCallback: (error: Error) => void): void;

@@ -474,7 +474,7 @@ declare namespace mx {
          */
         subscribe(args: {
             guid: string,
-            val: boolean,
+            val: true,
             callback: (validations: mendix.lib.ObjectValidation[]) => void
         }): number;
         /**

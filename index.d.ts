@@ -222,7 +222,7 @@ declare namespace mxui {
             _msgNode: HTMLElement;
             _messages: any[];
             add(message: string, modal: boolean): number;
-            remove(msgId: number): void;
+            remove(messageId: number): void;
         }
     }
 
@@ -592,11 +592,11 @@ declare namespace mx {
         /**
          * Shows an error message.
          */
-        error(msg: string, modal?: boolean): void;
+        error(message: string, modal?: boolean): void;
         /**
          * Shows a message for a fatal error in a modal dialog.
          */
-        exception(msg: string): void;
+        exception(message: string): void;
         /**
          *
          */
@@ -608,7 +608,7 @@ declare namespace mx {
         /**
          * Shows an information message.
          */
-        info(msg: string, modal: boolean): void;
+        info(message: string, modal: boolean): void;
         onError(error: Error): void;
         showUnderlay(delay?: number): void;
         hideUnderlay(delay?: number): void;
@@ -628,7 +628,7 @@ declare namespace mx {
         getTemplate(mxid: string, content: string): DocumentFragment;
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;
-        translate(lib: string, errorName: string, values?: any[]): string;
+        translate(systemTextCategory: string, systemTextItem: string, parameterValues?: any[]): string;
     }
 }
 

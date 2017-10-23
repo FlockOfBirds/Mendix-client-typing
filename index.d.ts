@@ -617,7 +617,7 @@ declare module mx {
         getTemplate(mxid: string, content: string): DocumentFragment,
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;
-        translate(lib: string, errorName: string): string;
+        translate(lib: string, msg: string, values: string[]): string;
     }
 }
 

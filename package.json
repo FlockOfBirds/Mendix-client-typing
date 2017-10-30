@@ -2,13 +2,23 @@
   "name": "mendix-client",
   "author": "Andries Smit <andries.smit@flockofbirds.org>",
   "description": "Typescript type definition for Mendix client",
-  "version": "7.6.0",
+  "version": "7.6.2",
   "types": "index.d.ts",
   "scripts": {
     "test": "tsc",
     "lint": "tslint index.d.ts -c tslint.json",
     "lint:fix": "npm run lint -- --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlockOfBirds/Mendix-client-typing.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/FlockOfBirds/Mendix-client-typing/issues"
+  },
+  "homepage": "https://github.com/FlockOfBirds/Mendix-client-typing#readme",
+  "keywords": [ "Mendix", "widget", "typing", "typescript" ],
   "dependencies": {
     "@types/big.js": "0.0.31",
     "@types/dojo": "^1.9.34"

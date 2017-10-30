@@ -307,6 +307,7 @@ declare namespace mx {
         login(username: string, password: string, onSuccess: () => void, onError: () => void): void;
         logout(): void;
         onError(error: Error): void;
+        isOffline: () => boolean;
     }
 
     type Sort = [ string, "desc" | "asc" ];

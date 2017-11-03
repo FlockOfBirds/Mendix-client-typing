@@ -83,7 +83,7 @@ declare namespace mendix {
             getReference(reference: string): string;
             getReferenceAttributes(): string[];
             getAttributeType(attribute: string): AttributeTypes;
-            getReferences(attribute: string): number[];
+            getReferences(attribute: string): string[];
             getSelectorEntity(attribute: string): string;
             getSubEntities(): string[];
             getSuperEntities(): string[];

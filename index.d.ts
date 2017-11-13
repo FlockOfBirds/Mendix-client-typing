@@ -456,13 +456,6 @@ declare namespace mx {
         //     error?: (error: Error) => void,
         // }, scope?: Object): void;
         /**
-         * Registers a callback to be invoked on changes in an MxObject
-         */
-        subscribe(args: {
-            guid: string,
-            callback: (guid: number) => void
-        }): number;
-        /**
          * Registers a callback to be invoked on changes in an attribute of a MxObject
          */
         subscribe(args: {
@@ -484,6 +477,13 @@ declare namespace mx {
         subscribe(args: {
             entity: string,
             callback: (entity: string) => void
+        }): number;
+        /**
+         * Registers a callback to be invoked on changes in an MxObject
+         */
+        subscribe(args: {
+            guid: string,
+            callback: (guid: number) => void
         }): number;
         unsubscribe(handle: number): void;
         update(args: {

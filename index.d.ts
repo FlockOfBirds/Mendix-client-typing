@@ -48,8 +48,21 @@ declare namespace mendix {
              * For reference attributes, use mendix/lib/MxObject#getReference and mendix/lib/MxObject#getReferences instead.
              */
             get(attribute: string): string | number | boolean; // add external big
+            getReference(reference: string): string;
+            getOriginalValue(attribute: string): string | number | boolean; // add external big
+
+            getReferences(attribute: string): string[];
+            getOriginalReferences(attribute: string): string[];
             removeReferences(attribute: string, guids: string[]): boolean;
             set(attribute: string, value: any): boolean;
+            /**
+             * Retrieves the MxObjects referenced by a reference attribute, if these objects were retrieved together with the current one using mx.data.get's args.filter.references.
+             * Otherwise returns an empty array, including the case when the reference has been modified since retrieval. When trying to retrieve a non-reference attribute this way, an exception is thrown.
+             */
+            getChildren(attribute: string): mendix.lib.MxObject[];
+            getGuid(): string;
+            hasChanges(): boolean;
+
         }
 
         interface MxContextConstructor {
@@ -78,31 +91,28 @@ declare namespace mendix {
             getAttributes(): string[];
             getEntity(): string;
             getEnumCaption(attribute: string, value: string): string;
-            getEnumMap(): { key: string, caption: string }[];
-            getGuid(): string;
-            getReference(reference: string): string;
+            getEnumMap(attribute: string): { key: string, caption: string }[];
+            getOptions(attribute: string): string[];
             getReferenceAttributes(): string[];
             getAttributeType(attribute: string): AttributeTypes;
-            getReferences(attribute: string): string[];
             getSelectorEntity(attribute: string): string;
             getSubEntities(): string[];
             getSuperEntities(): string[];
-            hasChanges(): boolean;
             hasSubEntities(): boolean;
             hasSuperEntities(): boolean;
-            inheritsFrom(claz: string): boolean;
-            isA(claz: string): boolean;
-            isBoolean(att: string): boolean;
-            isDate(att: string): boolean;
-            isEnum(att: string): boolean;
-            isLocalizedDate(att: string): boolean;
-            isNumber(att: string): boolean;
-            isNumeric(att: string): boolean;
-            isObjectReference(att: string): boolean;
-            isObjectReferenceSet(att: string): boolean;
-            isPassword(att: string): boolean;
-            isReadonlyAttr(att: string): boolean;
-            isReference(att: string): boolean;
+            inheritsFrom(entityName: string): boolean;
+            isA(entityName: string): boolean;
+            isBoolean(attribute: string): boolean;
+            isDate(attribute: string): boolean;
+            isEnum(attribute: string): boolean;
+            isLocalizedDate(attribute: string): boolean;
+            isNumber(attribute: string): boolean;
+            isNumeric(attribute: string): boolean;
+            isObjectReference(attribute: string): boolean;
+            isObjectReferenceSet(attribute: string): boolean;
+            isPassword(attribute: string): boolean;
+            isReadonlyAttr(attribute: string): boolean;
+            isReference(attribute: string): boolean;
         }
 
         class ObjectValidation {
@@ -307,7 +317,7 @@ declare namespace mx {
         login(username: string, password: string, onSuccess: () => void, onError: () => void): void;
         logout(): void;
         onError(error: Error): void;
-        isOffline: () => boolean;
+        isOffline(): boolean;
     }
 
     type Sort = [ string, "desc" | "asc" ];

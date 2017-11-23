@@ -113,6 +113,7 @@ declare namespace mendix {
             isPassword(attribute: string): boolean;
             isReadonlyAttr(attribute: string): boolean;
             isReference(attribute: string): boolean;
+            isPersistable(): boolean;
         }
 
         class ObjectValidation {

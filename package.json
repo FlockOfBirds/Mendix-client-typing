@@ -2,7 +2,7 @@
   "name": "mendix-client",
   "author": "Andries Smit <andries.smit@flockofbirds.org>",
   "description": "Typescript type definition for Mendix client",
-  "version": "7.6.4",
+  "version": "7.6.5",
   "types": "index.d.ts",
   "scripts": {
     "test": "tsc",

@@ -345,6 +345,13 @@ declare namespace mx {
             error?: (error: Error) => void,
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: Object): void;
+        callNanoflow(args: {
+            nanoflow: { nanoflow: Array<Object>, paramsSpec: { Progress: string } },
+            origin: mxui.lib.form._FormBase,
+            context: mendix.lib.MxContext,
+            callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,
+            error?: (error: Error) => void
+        }): void;
         commit(args: {
             mxobj: mendix.lib.MxObject,
             callback: () => void,

@@ -566,6 +566,7 @@ declare namespace mx {
     interface session {
         getUserId(): string;
         getCSRFToken(): string;
+        getConfig(value: string): string;
         getUserAttribute(attribute: string): any;
         getUserClass(): string;
         getUserName(): string;

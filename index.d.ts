@@ -638,7 +638,7 @@ declare namespace mx {
          * Opens a form, either in content, in a DOM node or in a (modal) popup
          */
         openForm(path: string, args?: {
-            location?: "content" | "popup" | "modal",
+            location?: "content" | "popup" | "modal" | "node",
             domNode?: HTMLElement,
             title?: string,
             context?: mendix.lib.MxContext,

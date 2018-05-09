@@ -637,8 +637,8 @@ declare namespace mx {
         /**
          * Opens a form, either in content, in a DOM node or in a (modal) popup
          */
-        openForm(path: string, args?: {
-            location?: "content" | "popup" | "modal",
+        openForm(path: string, args: {
+            location: "content" | "popup" | "modal" | "node",
             domNode?: HTMLElement,
             title?: string,
             context?: mendix.lib.MxContext,
@@ -648,7 +648,7 @@ declare namespace mx {
         getTemplate(mxid: string, content: string): DocumentFragment;
         showLogin(messageCode: number): void;
         reload(callback?: () => void): void;
-        translate(systemTextCategory: string, systemTextItem: string, parameterValues?: any[]): string;
+        // translate(systemTextCategory: string, systemTextItem: string, parameterValues?: any[]): string;
     }
 }
 

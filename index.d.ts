@@ -535,8 +535,9 @@ declare namespace mx {
         formatValue(value: any, type: string, props?: any): string;
         parseValue(value: string, type: "autonumber" | "string" | "hashstring" | "enum" , props?: any): string;
         parseValue(value: string, type: "boolean", props?: any): boolean;
-        parseValue(value: string, type: "datetime", props?: any): number; // Date
+        parseValue(value: string, type: "datetime", props?: any): Date; // Date
         parseValue(value: string, type: "float" | "currency" | "integer" | "long" | "decimal" , props?: any): any; // should be Big;
+        delocalizeEpoch(value: Date): number;
     }
 
     interface server {

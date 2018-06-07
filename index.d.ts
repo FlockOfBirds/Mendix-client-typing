@@ -235,6 +235,10 @@ declare namespace mxui {
             add(message: string, modal: boolean): number;
             remove(messageId: number): void;
         }
+
+        class DatePicker extends _WidgetBase {
+            constructor(args: {format: string; placeholder: string});
+        }
     }
 
     namespace lib {

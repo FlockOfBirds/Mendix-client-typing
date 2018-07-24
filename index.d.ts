@@ -567,8 +567,16 @@ declare namespace mx {
         // Deprecated since version 7.0, use methods of mx.data instead to access or operate on objects or to invoke microflows.
         // request(args);
     }
-
+    interface Locale {
+            code: string;
+            firstDayOfWeek: number;
+            minimalDaysInFirstWeek: number;
+    }
+    interface SessionData {
+        locale: Locale;
+    }
     interface session {
+        sessionData: SessionData;
         getUserId(): string;
         getCSRFToken(): string;
         getConfig(value: string): string;

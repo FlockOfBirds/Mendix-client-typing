@@ -576,6 +576,13 @@ declare namespace mx {
         getUserClass(): string;
         getUserName(): string;
         isGuest(): boolean;
+        sessionData: {
+            locale: {
+                code: string;
+                firstDayOfWeek: number;
+                minimalDaysInFirstWeek: number;
+            }
+        }
     }
 
     interface ui {

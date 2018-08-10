@@ -323,6 +323,7 @@ declare namespace mx {
         logout(): void;
         onError(error: Error): void;
         isOffline(): boolean;
+        onlineData: OnlineData;
     }
 
     type Sort = [ string, "desc" | "asc" ];
@@ -330,6 +331,9 @@ declare namespace mx {
     interface ReferencesSpec { attributes: string[]; amount: number; sort: Sort; }
     interface OfflineFilter { offset?: number; limit?: number; sort?: Sort[]; }
     interface OfflineConstraint { attribute: string; operator: string; value: string|number; negate?: boolean; }
+    interface OnlineData {
+        getByXpath(xpath: string, options?:{ count: boolean, sort: Sort[] }): Promise<{count: number, mxobjs: mendix.lib.MxObject[]}>;
+    }
 
     interface data {
         action(action: {

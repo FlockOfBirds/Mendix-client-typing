@@ -175,6 +175,7 @@ declare namespace mxui {
         class _WidgetBase extends dijit._WidgetBase {
             readonly uniqueid: string;
             readonly id: string;
+            readonly friendlyId: string;
             declaredClass: string;
             readOnly: boolean;
             editNode?: any;
@@ -362,6 +363,12 @@ declare namespace mx {
         }): void;
         commit(args: {
             mxobj: mendix.lib.MxObject,
+            callback: () => void,
+            error?: (error: Error) => void,
+            onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
+        }, scope?: Object): void;
+        commit(args: {
+            mxobjs: mendix.lib.MxObject[],
             callback: () => void,
             error?: (error: Error) => void,
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void

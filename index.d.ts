@@ -336,6 +336,11 @@ declare namespace mx {
         getByXpath(xpath: string, options?:{ count: boolean, sort: Sort[] }): Promise<{count: number, mxobjs: mendix.lib.MxObject[]}>;
     }
 
+    interface Nanoflow {
+        nanoflow: object[];
+        paramsSpec: { Progress: string };
+    }
+
     interface data {
         action(action: {
             params: {
@@ -355,7 +360,7 @@ declare namespace mx {
             onValidation?: (validations: mendix.lib.ObjectValidation[]) => void
         }, scope?: Object): void;
         callNanoflow(args: {
-            nanoflow: { nanoflow: Array<Object>, paramsSpec: { Progress: string } },
+            nanoflow: mx.Nanoflow,
             origin: mxui.lib.form._FormBase,
             context: mendix.lib.MxContext,
             callback?: (result: mendix.lib.MxObject | mendix.lib.MxObject[] | boolean | number | string) => void,

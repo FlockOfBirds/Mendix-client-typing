@@ -714,4 +714,7 @@ interface Window {
     mendix: mendix.MendixInterface;
     mx: mx.MxInterface;
     logger: mendix.Logger;
+    dojoConfig: {
+        remotebase?: string;
+    }
 }

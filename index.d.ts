@@ -251,6 +251,7 @@ declare namespace mxui {
                 id: string;
                 path: string;
                 title: string;
+                viewState?: { [key: string]: any };
                 constructor();
                 callRecursive(method: string, ...param: any[]): void;
                 close(): void;

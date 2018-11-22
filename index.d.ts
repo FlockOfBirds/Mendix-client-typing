@@ -125,8 +125,7 @@ declare namespace mendix {
             removeAttribute(attribute: string): void;
         }
 
-        class ValidationError {
-
+        class ValidationError extends Error {
         }
     }
     class lang {

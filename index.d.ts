@@ -247,9 +247,14 @@ declare namespace mxui {
 
             class _FormBase {
                 domNode: HTMLElement;
+                hash: string;
                 id: string;
+                onLoading(): void;
+                onPersistViewState(): void;
                 path: string;
+                place: string;
                 title: string;
+                url: string;
                 viewState?: { [key: string]: any };
                 constructor();
                 callRecursive(method: string, ...param: any[]): void;

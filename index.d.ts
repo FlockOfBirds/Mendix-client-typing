@@ -124,8 +124,39 @@ declare namespace mendix {
             getGuid(): string;
             removeAttribute(attribute: string): void;
         }
+        
+        class ValidationError {
 
-        class ValidationError extends Error {
+        }
+
+        namespace dataSource {
+
+            class DataSource {
+                    setOffset: (offSet: number) => void;
+                    setPageSize: (pageSize: number) => void;
+                    _constraints: Constraints;
+                    _entity: string;
+                    _sort: string[][];
+                    _sorting: string[][];
+                    getOffset: () => number;
+                    getPageSize: () => number;
+                    getSetSize: () => number;
+                    reload: (callback: () => void) => void;
+            }
+
+            interface GroupedOfflineConstraint {
+                constraints: OfflineConstraint[];
+                operator: "or" | "and";
+            }
+            
+            type Constraints = (GroupedOfflineConstraint | OfflineConstraint)[] | string;
+
+            interface OfflineConstraint {
+                attribute: string;
+                operator: string;
+                value: string;
+                path?: string;
+            }
         }
     }
     class lang {
@@ -239,6 +270,23 @@ declare namespace mxui {
         class DatePicker extends _WidgetBase {
             constructor(args: {format: string; placeholder: string});
         }
+
+        class ListView extends _WidgetBase {
+            _datasource: mendix.lib.dataSource.DataSource;
+            _entity: string;
+            _renderData: (callback?: () => void) => void;
+            _showLoadingIcon: () => void;
+            _sourceReload: () => void;
+            _onLoad: (callback?: () => void) => void;
+            friendlyId: string;
+            datasource: {
+                type: "microflow" | "entityPath" | "database" | "xpath";
+            };
+            update: (obj: mendix.lib.MxObject | null, callback?: () => void) => void;
+            sequence: (sequence: string[], callback?: () => void) => void;
+            getState: (key: string, defaultValue?: any) => any;
+        }
+
     }
 
     namespace lib {
@@ -280,28 +328,28 @@ declare namespace mxui {
         }
     }
 
-    interface dom {
+    class dom {
+        static escapeHTMLQuotes: (valueString: string) => string;
         /**
          * Add a link to the given stylesheet to a document.
          * @param path - path of the stylesheet location
          * @param doc - document to add the stylesheet link to. Defaults to document.
          * @media media - string describing the media types supported by the stylesheet
          */
-        addCss(path: string, doc?: Document, media?: string): void;
-        create(element: string, props?: Object, ...children: HTMLElement[]): HTMLElement;
-        create(element: string, props?: Object, value?: string): HTMLElement;
-        disableNode(node: HTMLElement): HTMLElement;
-        enableNode(node: HTMLElement): HTMLElement;
-        escapeString(valueString: string): string;
-        getCss(path: string, doc?: Document): HTMLLinkElement;
-        getCursorPosition(input: HTMLInputElement): number;
-        getSelectedText(node: HTMLSelectElement): string;
-        getSelectedValue(node: HTMLSelectElement): string;
-        getSelection(input: HTMLInputElement): { start: number, end: number };
-        removeCss(filePath: string, doc?: Document): boolean;
-        selectTextRange(input: HTMLInputElement, selectionStart: number, selectionEnd: number): void;
-        setSelectOptions(node: HTMLSelectElement, options: Object, selected: string): void;
-
+        static addCss: (path: string, doc?: Document, media?: string) => void;
+        static create: (element: string, props?: Object, ...children: HTMLElement[]) => HTMLElement;
+        // create: (element: string, props?: Object, value?: string) => HTMLElement;
+        static disableNode: (node: HTMLElement) => HTMLElement;
+        static enableNode: (node: HTMLElement) => HTMLElement;
+        static escapeString: (valueString: string) => string;
+        static getCss: (path: string, doc?: Document) => HTMLLinkElement;
+        static getCursorPosition: (input: HTMLInputElement) => number;
+        static getSelectedText: (node: HTMLSelectElement) =>  string;
+        static getSelectedValue: (node: HTMLSelectElement) => string;
+        static getSelection: (input: HTMLInputElement) => { start: number, end: number };
+        static removeCss: (filePath: string, doc?: Document) => boolean;
+        static selectTextRange: (input: HTMLInputElement, selectionStart: number, selectionEnd: number) => void;
+        static setSelectOptions: (node: HTMLSelectElement, options: Object, selected: string) => void;
     }
 
     namespace html {

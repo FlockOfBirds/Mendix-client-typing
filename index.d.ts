@@ -278,6 +278,7 @@ declare namespace mxui {
             _showLoadingIcon: () => void;
             _sourceReload: () => void;
             _onLoad: (callback?: () => void) => void;
+            _loadData: (callback: () => void) => void;
             friendlyId: string;
             datasource: {
                 type: "microflow" | "entityPath" | "database" | "xpath";

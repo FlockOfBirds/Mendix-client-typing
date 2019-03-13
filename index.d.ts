@@ -125,8 +125,8 @@ declare namespace mendix {
             removeAttribute(attribute: string): void;
         }
         
-        class ValidationError {
-
+        class ValidationError extends Error {
+            constructor(original: object);
         }
 
         namespace dataSource {

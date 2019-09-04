@@ -98,6 +98,7 @@ declare namespace mendix {
             getSelectorEntity(attribute: string): string;
             getSubEntities(): string[];
             getSuperEntities(): string[];
+            has(attribute: string): boolean;
             hasSubEntities(): boolean;
             hasSuperEntities(): boolean;
             inheritsFrom(entityName: string): boolean;
@@ -124,7 +125,7 @@ declare namespace mendix {
             getGuid(): string;
             removeAttribute(attribute: string): void;
         }
-        
+
         class ValidationError extends Error {
             constructor(original: object);
         }
@@ -148,7 +149,7 @@ declare namespace mendix {
                 constraints: OfflineConstraint[];
                 operator: "or" | "and";
             }
-            
+
             type Constraints = (GroupedOfflineConstraint | OfflineConstraint)[] | string;
 
             interface OfflineConstraint {

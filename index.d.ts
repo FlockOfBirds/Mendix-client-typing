@@ -50,6 +50,7 @@ declare namespace mendix {
             get(attribute: string): string | number | boolean; // add external big
             getReference(reference: string): string;
             getOriginalValue(attribute: string): string | number | boolean; // add external big
+            getAttributes(): string[]; // Convenience method from mxMetaObject
 
             getReferences(attribute: string): string[];
             getOriginalReferences(attribute: string): string[];
@@ -62,6 +63,7 @@ declare namespace mendix {
             getChildren(attribute: string): mendix.lib.MxObject[];
             getGuid(): string;
             hasChanges(): boolean;
+            getEntity(): string;
 
         }
 
@@ -89,8 +91,10 @@ declare namespace mendix {
 
         class MxMetaObject {
             getAttributes(): string[];
+            getAttributesWithoutReferences(): string[];
             getEntity(): string;
             getEnumCaption(attribute: string, value: string): string;
+            getEnumKVPairs(enumeration: string): { [key: string]: string };
             getEnumMap(attribute: string): { key: string, caption: string }[];
             getOptions(attribute: string): string[];
             getReferenceAttributes(): string[];
@@ -103,6 +107,7 @@ declare namespace mendix {
             hasSuperEntities(): boolean;
             inheritsFrom(entityName: string): boolean;
             isA(entityName: string): boolean;
+            isBidirectionalReference(attribute: string): boolean;
             isBoolean(attribute: string): boolean;
             isDate(attribute: string): boolean;
             isEnum(attribute: string): boolean;
@@ -299,14 +304,14 @@ declare namespace mxui {
                 domNode: HTMLElement;
                 hash: string;
                 id: string;
-                onLoading(): void;
-                onPersistViewState(): void;
                 path: string;
                 place: string;
                 title: string;
                 url: string;
                 viewState?: { [key: string]: any };
                 constructor();
+                onLoading(): void;
+                onPersistViewState(): void;
                 callRecursive(method: string, ...param: any[]): void;
                 close(): void;
                 commit(callback: () => void, error?: (error: Error) => void): void;
@@ -346,7 +351,7 @@ declare namespace mxui {
         static escapeString: (valueString: string) => string;
         static getCss: (path: string, doc?: Document) => HTMLLinkElement;
         static getCursorPosition: (input: HTMLInputElement) => number;
-        static getSelectedText: (node: HTMLSelectElement) =>  string;
+        static getSelectedText: (node: HTMLSelectElement) => string;
         static getSelectedValue: (node: HTMLSelectElement) => string;
         static getSelection: (input: HTMLInputElement) => { start: number, end: number };
         static removeCss: (filePath: string, doc?: Document) => boolean;
@@ -374,12 +379,12 @@ declare namespace mx {
         server: mx.server;
         session: mx.session;
         ui: mx.ui;
+        onlineData: OnlineData;
         addOnLoad(callback: () => void): void;
         login(username: string, password: string, onSuccess: () => void, onError: () => void): void;
         logout(): void;
         onError(error: Error): void;
         isOffline(): boolean;
-        onlineData: OnlineData;
     }
 
     type Sort = [ string, "desc" | "asc" ];
@@ -388,7 +393,7 @@ declare namespace mx {
     interface OfflineFilter { offset?: number; limit?: number; sort?: Sort[]; }
     interface OfflineConstraint { attribute: string; operator: string; value: string|number; negate?: boolean; }
     interface OnlineData {
-        getByXpath(xpath: string, options?:{ count: boolean, sort: Sort[] }): Promise<{count: number, mxobjs: mendix.lib.MxObject[]}>;
+        getByXpath(xpath: string, options?: { count: boolean, sort: Sort[] }): Promise<{ count: number, mxobjs: mendix.lib.MxObject[] }>;
     }
 
     interface Nanoflow {
@@ -771,5 +776,5 @@ interface Window {
     logger: mendix.Logger;
     dojoConfig: {
         remotebase?: string;
-    }
+    };
 }
